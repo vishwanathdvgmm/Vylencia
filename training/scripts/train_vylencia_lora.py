@@ -5,7 +5,9 @@ from transformers import (
     AutoTokenizer,
     TrainingArguments,
 )
+from transformers import BitsAndBytesConfig
 from peft import LoraConfig, get_peft_model
+from transformers.utils import quantization_config
 from trl import SFTTrainer
 import yaml
 import os
@@ -26,9 +28,11 @@ tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL, use_fast=False)
 tokenizer.pad_token = tokenizer.eos_token
 tokenizer.padding_side = "right"
 
+bnb_config = BitsAndBytesConfig(load_in_8bit=True)
+
 model = AutoModelForCausalLM.from_pretrained(
     BASE_MODEL,
-    load_in_8bit=trorch.cuda.is_available(),
+    quantization_config=bnb_config,
     device_map="auto",
 )
 
@@ -89,10 +93,10 @@ training_args = TrainingArguments(
 # -------------------------------------------------
 trainer = SFTTrainer(
     model=model,
-    tokenizer=tokenizer,
     train_dataset=dataset,
     formatting_func=format_example,
     args=training_args,
+    processing_class=tokenizer,
 )
 
 
