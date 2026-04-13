@@ -5,7 +5,7 @@ from agents.base_agent import BaseAgent
 class KnowledgeAgent(BaseAgent):
 
     def __init__(self, language_assist):
-        self.lang = language_assist
+        super().__init__(language_assist)
         self.retriever = KnowledgeRetriever()
 
     def run(self, prompt, mode):
@@ -28,7 +28,7 @@ class KnowledgeAgent(BaseAgent):
             {prompt}
 
             Answer in 1-2 sentences.
-            Do not leave it empty.
+            Do not say you lack information.
             """
 
         # CASE 2: Weak context → Hybrid (RAG + LLM)
@@ -53,7 +53,7 @@ class KnowledgeAgent(BaseAgent):
 
         # CASE 3: Strong context → Strict RAG
         else:
-            log(f"KnowledgeAgent → Strong context ({confidence}), using RAG+")
+            log(f"KnowledgeAgent → Strong context ({confidence}), using HYBRID RAG")
 
             context_text = "\n".join(context_docs)
 

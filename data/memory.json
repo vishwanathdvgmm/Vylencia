@@ -515,16 +515,64 @@
       "emotion": "SAD",
       "intent": "VENTING",
       "mode": "COMFORT"
+    },
+    {
+      "timestamp": "2026-04-13T17:31:51",
+      "emotion": "CALM",
+      "intent": "KNOWLEDGE",
+      "mode": "KNOWLEDGE"
+    },
+    {
+      "timestamp": "2026-04-13T17:34:20",
+      "emotion": "CALM",
+      "intent": "KNOWLEDGE",
+      "mode": "KNOWLEDGE"
+    },
+    {
+      "timestamp": "2026-04-13T17:34:30",
+      "emotion": "CALM",
+      "intent": "KNOWLEDGE",
+      "mode": "KNOWLEDGE"
+    },
+    {
+      "timestamp": "2026-04-13T17:34:40",
+      "emotion": "CALM",
+      "intent": "KNOWLEDGE",
+      "mode": "KNOWLEDGE"
+    },
+    {
+      "timestamp": "2026-04-13T17:35:09",
+      "emotion": "CALM",
+      "intent": "UNKNOWN",
+      "mode": "COMFORT"
+    },
+    {
+      "timestamp": "2026-04-13T17:35:19",
+      "emotion": "CALM",
+      "intent": "UNKNOWN",
+      "mode": "COMFORT"
+    },
+    {
+      "timestamp": "2026-04-13T17:35:43",
+      "emotion": "CALM",
+      "intent": "CODE",
+      "mode": "CODE"
+    },
+    {
+      "timestamp": "2026-04-13T17:35:59",
+      "emotion": "STRESSED",
+      "intent": "VENTING",
+      "mode": "COMFORT"
     }
   ],
   "patterns": {
-    "CALM_UNKNOWN": 5.351381058310637,
-    "CALM_ENTERTAINMENT": 1.175485982446741,
-    "STRESSED_VENTING": 2.580290086178636,
-    "CALM_KNOWLEDGE": 4.894141490838322,
-    "CALM_CODE": 0.8145062499999999,
-    "CONFUSED_VENTING": 0.8573749999999999,
-    "CONFUSED_KNOWLEDGE": 1.8524999999999998,
-    "SAD_VENTING": 1
+    "CALM_UNKNOWN": 5.310090529696561,
+    "CALM_ENTERTAINMENT": 0.7798414174490642,
+    "STRESSED_VENTING": 2.7118171618235225,
+    "CALM_KNOWLEDGE": 6.268589832860403,
+    "CALM_CODE": 1.4903600876626366,
+    "CONFUSED_VENTING": 0.5688000922764596,
+    "CONFUSED_KNOWLEDGE": 1.2289863489629875,
+    "SAD_VENTING": 0.6634204312890623
   }
 }

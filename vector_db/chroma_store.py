@@ -1,6 +1,7 @@
 import chromadb
 import uuid
 import hashlib
+from utils.logger import log
 
 class ChromaStore:
 
@@ -13,6 +14,12 @@ class ChromaStore:
 
     def add(self, text, embedding):
 
+        if not text or not isinstance(text, str):
+            return
+        
+        if not embedding or not isinstance(embedding, list):
+            return
+
         doc_id = hashlib.md5(text.encode("utf-8")).hexdigest()
 
         try:
@@ -21,23 +28,43 @@ class ChromaStore:
                 embeddings=[embedding],
                 ids=[doc_id]
             )
-        except Exception:
-            pass
+        except Exception as e:
+            log(f"ChromaStore add skipped (likely duplicate): {e}")
 
     def search(self, embedding, k=3):
 
-        results = self.collection.query(
-            query_embeddings=[embedding],
-            n_results=k
-        )
+        if not embedding:
+            return []
+        
+        try:
+            results = self.collection.query(
+                query_embeddings=[embedding],
+                n_results=k
+            )
+        except Exception as e:
+            log(f"Chroma search error: {e}")
+            return []
 
         if not results or not results.get("documents"):
             return []
         
-        docs = results["documents"][0]
-        distances = results.get("distances", [[]])[0]
+        docs = results["documents"][0] or []
+        distances = results.get("distances")
 
-        if not distances:
-            return [(doc, 1.0) for doc in docs]
+        # fallback if distances missing
+        if not distances or not distances[0]:
+            paired = [(doc, 1.0) for doc in docs]
+        else:
+            distances = distances[0]
+            paired = list(zip(docs, distances))
 
-        return list(zip(docs, distances))
+        # ✅ DEDUP LOGIC (ADD THIS PART)
+        seen = set()
+        unique = []
+
+        for doc, dist in paired:
+            if doc not in seen:
+                seen.add(doc)
+                unique.append((doc, dist))
+
+        return unique

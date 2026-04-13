@@ -1,4 +1,5 @@
 # utils/language_assist.py
+from utils.logger import log
 
 class LanguageAssist:
     def __init__(self, adapter=None):
@@ -12,6 +13,13 @@ class LanguageAssist:
             return draft
         try:
             out = self.adapter.compose(draft, mode)
-            return out if isinstance(out, str) and out.strip() else draft
-        except Exception:
+
+            if not isinstance(out, str) or not out.strip():
+                log("LanguageAssist: Empty or invalid model output. Falling back.")
+                return draft
+
+            return out
+
+        except Exception as e:
+            log(f"LanguageAssist ERROR: {e}")
             return draft

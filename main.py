@@ -148,7 +148,8 @@ def main():
             elif decision["mode"] == "KNOWLEDGE":
                 agent = agent_map.get(agent_name, knowledge_agent)
                 generated = agent.run(processed["raw_input"], "KNOWLEDGE")
-                final_text = generated.strip() if generated else "Something went wrong."
+                formatted = format_response(decision["mode"], generated)
+                final_text = validate(formatted)
 
             elif decision["mode"] == "ENTERTAINMENT":
                 structured_prompt = (
@@ -181,7 +182,7 @@ def main():
                 generated = agent.run(structured_prompt, decision["mode"])
 
                 if decision["mode"] == "CODE":
-                    final_text = generated.strip() if generated else "Something went wrong."
+                    final_text = validate(generated.strip()) if generated else "Something went wrong."
                 else:
                     final_text = validate(generated.strip()) if generated and generated.strip() else "Something went wrong. Try again."
 
