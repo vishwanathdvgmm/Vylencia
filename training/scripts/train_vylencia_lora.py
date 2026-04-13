@@ -24,10 +24,11 @@ DATA_PATH = cfg["data"]["path"]
 # -------------------------------------------------
 tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL, use_fast=False)
 tokenizer.pad_token = tokenizer.eos_token
+tokenizer.padding_side = "right"
 
 model = AutoModelForCausalLM.from_pretrained(
     BASE_MODEL,
-    load_in_8bit=torch.cuda.is_available(),
+    load_in_8bit=trorch.cuda.is_available(),
     device_map="auto",
 )
 
@@ -71,15 +72,15 @@ def format_example(example):
 # -------------------------------------------------
 training_args = TrainingArguments(
     output_dir="training/outputs",
-    per_device_train_batch_size=cfg["training"]["batch_size"],
-    gradient_accumulation_steps=cfg["training"]["gradient_accumulation"],
-    num_train_epochs=cfg["training"]["epochs"],
-    learning_rate=float(cfg["training"]["learning_rate"]),
-    warmup_ratio=cfg["training"]["warmup_ratio"],
-    fp16=cfg["training"]["fp16"],
+    per_device_train_batch_size=1,
+    gradient_accumulation_steps=4,
+    num_train_epochs=1,
+    max_steps=50,
+    learning_rate=2e-4,
+    fp16=True,
     logging_dir="training/logs",
-    logging_steps=10,
-    save_strategy="epoch",
+    logging_steps=5,
+    save_strategy="no",
     report_to="none",
 )
 

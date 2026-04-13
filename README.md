@@ -2,11 +2,11 @@
 
 ## System Architecture
 
-![System Architecture](docs/ARCHITECTURE.md)
+![System Architecture](https://github.com/vishwanathdvgmm/Vylencia/blob/main/docs/ARCHITECTURE.md)
 
 ## File Structure
 
-![File Structure](docs/STRUCTURE.md)
+![File Structure](https://github.com/vishwanathdvgmm/Vylencia/blob/main/docs/STRUCTURE.md)
 
 ## Usage
 
