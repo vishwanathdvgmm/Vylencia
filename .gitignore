@@ -1,0 +1,5 @@
+.venv
+*.png
+__pycache__/
+.env
+data/vector_db/
