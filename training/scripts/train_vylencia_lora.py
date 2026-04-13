@@ -18,7 +18,7 @@ import os
 with open("training/configs/vylencia_lora_config.yaml", "r") as f:
     cfg = yaml.safe_load(f)
 
-BASE_MODEL = "google/gemma-2-2b-it"
+BASE_MODEL = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 DATA_PATH = cfg["data"]["path"]
 
 # -------------------------------------------------
