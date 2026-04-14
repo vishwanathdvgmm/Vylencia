@@ -18,7 +18,6 @@ from engines.decision import decide
 from engines.memory import update_memory
 from engines.control import execute
 from engines.governance import allow
-from engines.router import CapabilityRouter
 
 from agents.general_agent import GeneralAgent
 from agents.code_agent import CodeAgent
@@ -64,7 +63,6 @@ def main():
     personality = PersonalityPolicy()
     adapter = ModelAdapter(timeout_seconds=30.0)
     lang = LanguageAssist(adapter=adapter)
-    router = CapabilityRouter()
     general_agent = GeneralAgent(lang)
     code_agent = CodeAgent(lang)
     legal_agent = LegalAgent(lang)
@@ -81,6 +79,21 @@ def main():
         "knowledge_agent": knowledge_agent,
     }
 
+    MODE_TO_AGENT = {
+        "CODE": "code_agent",
+        "LEGAL": "legal_agent",
+        "FINANCE": "finance_agent",
+        "MEDICAL": "medical_agent",
+        "KNOWLEDGE": "knowledge_agent",
+
+        # default behaviors
+        "GENERAL": "general_agent",
+        "COMFORT": "general_agent",
+        "COMFORT_GUIDANCE": "general_agent",
+        "GUIDANCE": "general_agent",
+        "ENTERTAINMENT": "general_agent",
+    }
+
     log("Vylencia is alive.")
 
     while state.alive:
@@ -92,6 +105,8 @@ def main():
                 log("EMERGENCY SHUTDOWN triggered.")
                 state.alive = False
                 break
+
+            previous_input = state.last_interaction.get("text")
 
             interpreted_input = lang.interpret(user_input)
             state.update_interaction(interpreted_input)
@@ -109,34 +124,17 @@ def main():
             if allow(decision, state):
                 execute(decision, state)
 
-            agent_name = router.route(decision["mode"], processed["raw_input"])
+            agent_name = MODE_TO_AGENT.get(decision["mode"], "general_agent")
 
-            if agent_name == "code_agent" and decision["mode"] != "CODE":
-                log("Correction: Overriding mode → CODE")
-                decision["mode"] = "CODE"
-
-            elif agent_name == "legal_agent" and decision["mode"] != "LEGAL":
-                log("Correction: Overriding mode → LEGAL")
-                decision["mode"] = "LEGAL"
-
-            elif agent_name == "finance_agent" and decision["mode"] != "FINANCE":
-                log("Correction: Overriding mode → FINANCE")
-                decision["mode"] = "FINANCE"
-
-            elif agent_name == "medical_agent" and decision["mode"] != "MEDICAL":
-                log("Correction: Overriding mode → MEDICAL")
-                decision["mode"] = "MEDICAL"
-
-            elif agent_name == "knowledge_agent" and decision["mode"] != "KNOWLEDGE":
-                log("Correction: Overriding mode → KNOWLEDGE")
-                decision["mode"] = "KNOWLEDGE"
+            if decision["mode"] == "UNKNOWN":
+                agent_name = "general_agent"
 
             update_memory(processed, decision, state)
             save_relationship(state.relationship)
             if DEBUG:
                 log("Memory and relationship state updated.")
 
-            if decision["mode"] in ["CODE", "KNOWLEDGE"]:
+            if decision["mode"] in ["CODE", "KNOWLEDGE", "GENERAL"]:
                 personalized = ""
             else:
                 personalized = personality.apply(decision, processed, state)
@@ -148,26 +146,55 @@ def main():
             elif decision["mode"] == "KNOWLEDGE":
                 agent = agent_map.get(agent_name, knowledge_agent)
                 generated = agent.run(processed["raw_input"], "KNOWLEDGE")
-                formatted = format_response(decision["mode"], generated)
-                final_text = validate(formatted)
+                final_text = validate(generated.strip()) if generated else "Something went wrong."
 
             elif decision["mode"] == "ENTERTAINMENT":
                 structured_prompt = (
                     "emotion=CALM; intent=ENTERTAINMENT; urgency=LOW; "
                     "situation=User asked for a joke\n\n"
                 )
-                generated = general_agent.run(structured_prompt, "ENTERTAINMENT")
+                agent = agent_map.get(agent_name, general_agent)
+                generated = agent.run(structured_prompt, "ENTERTAINMENT")
                 final_text = validate(generated).strip() if generated and generated.strip() else \
                     "Hmm… I was thinking of a joke, but my brain took too long 😅 Want me to try again?"
 
             else:
                 if decision["mode"] == "CODE":
-                    structured_prompt = f"""Write clean, correct Python code based on the request below.
+                    previous_code = state.last_interaction.get("text", "")
 
-                    Request:
+                    followup_keywords = ["same", "above", "previous", "modify", "update"]
+                    if_followup = any(k in processed["raw_input"].lower() for k in followup_keywords)
+
+                    context_block = previous_input if if_followup else ""
+
+                    structured_prompt = f"""
+                    You are a senior software engineer.
+
+                    Task/Current request:
                     {processed["raw_input"]}
 
-                    Return only code. No explanation."""
+                    Context (previous code, if relevant):
+                    {context_block}
+
+                    Write complete, correct, working code.
+                    
+                    Requiremens:
+                    - Return ONLY code.
+                    - Use the language Requested.
+                    - Modify or extend the previous code if needed.
+                    - No placeholders.
+                    - No incomplete code.
+                    - No explanations.
+                    - No repetition of previous code unless explicitly asked.
+                    - Return full runnable code only.
+
+                    If multiple languages are requested:
+                    - Output them in separate code blocks.
+                    - Order exactly as requested.
+                    - Use correct syntax for each language.
+
+                    Ensure correctness and completeness.                    
+                    """
                 else:
                     structured_prompt = (
                         f"mode={decision['mode']}; "

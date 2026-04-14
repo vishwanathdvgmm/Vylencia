@@ -1,6 +1,7 @@
 from utils.logger import log
 from knowledge.retriever import KnowledgeRetriever
 from agents.base_agent import BaseAgent
+from engines.memory import recall_relevant
 
 class KnowledgeAgent(BaseAgent):
 
@@ -12,23 +13,36 @@ class KnowledgeAgent(BaseAgent):
 
         log("KnowledgeAgent retrieving context")
 
-        context_docs = self.retriever.retrieve(prompt)
-        confidence = len(context_docs)
+        refined_query = f"Explain clearly: {prompt}"
+
+        context_docs = self.retriever.retrieve(refined_query)
+      
+        memory_signal = recall_relevant(intent="KNOWLEDGE")
+        pattern_strength = memory_signal.get("pattern_strength", 0)
+
+        confidence = len(context_docs) + pattern_strength
+
+        if pattern_strength > 3:
+            confidence += 1
 
         # CASE 1: No context → Pure LLM
         if confidence == 0:
             log("KnowledgeAgent → No context, using LLM knowledge")
 
             final_prompt = f"""
-            You are a factual knowledge assistant.
-
             Answer the question clearly using general knowledge.
+
+            Avoid vague definitions. Give concrete, practical explanation.
+
+            If the term has multiple meanings, choose the most likely meaning based on the question context.
+
+            Limit your answer to 2–3 concise sentences.
+            Do NOT generate code unless explicitly asked.
 
             Question:
             {prompt}
 
-            Answer in 1-2 sentences.
-            Do not say you lack information.
+            Be precise and factual.
             """
 
         # CASE 2: Weak context → Hybrid (RAG + LLM)
@@ -38,9 +52,12 @@ class KnowledgeAgent(BaseAgent):
             context_text = "\n".join(context_docs)
 
             final_prompt = f"""
-            You are a knowledge assistant.
+            Use the context if helpful, otherwise rely on your knowledge.
 
-            Use the context as a reference, but you may also use your own knowledge.
+            If the term has multiple meanings, choose the most likely meaning based on the question context.
+
+            Limit your answer to 2–3 concise sentences.
+            Do NOT generate code unless explicitly asked.
 
             Context:
             {context_text}
@@ -48,7 +65,7 @@ class KnowledgeAgent(BaseAgent):
             Question:
             {prompt}
 
-            Answer clearly in 1-2 sentences.
+            Answer clearly and correctly.
             """
 
         # CASE 3: Strong context → Strict RAG
@@ -58,10 +75,14 @@ class KnowledgeAgent(BaseAgent):
             context_text = "\n".join(context_docs)
 
             final_prompt = f"""
-            You are a knowledge assistant.
-
             Use the context as primary information.
-            If anything is missing, supplement with general knowledge.
+
+            If needed, supplement carefully with correct knowledge.
+
+            If the term has multiple meanings, choose the most likely meaning based on the question context.
+
+            Limit your answer to 2–3 concise sentences.
+            Do NOT generate code unless explicitly asked.
 
             Context:
             {context_text}
@@ -69,7 +90,7 @@ class KnowledgeAgent(BaseAgent):
             Question:
             {prompt}
 
-            Answer clearly in 1-2 sentences.
+            Answer precisely. Avoid hallucination.
             """
 
         response = self.lang.compose(final_prompt, mode)

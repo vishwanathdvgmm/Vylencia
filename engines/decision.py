@@ -22,9 +22,16 @@ def decide(processed_input: dict, state):
             "message": "Here’s something to make you smile."
         }
     
-    if intent == "CODE":
+    if intent == "CODE_GENERATION":
         return {
             "mode": "CODE",
+            "action": None,
+            "message": ""
+        }
+    
+    if intent == "CODE_CONCEPT":
+        return {
+            "mode": "KNOWLEDGE",
             "action": None,
             "message": ""
         }
@@ -35,6 +42,16 @@ def decide(processed_input: dict, state):
             "action": None,
             "message": ""
         }
+    
+    if intent in ("GENERAL", "GREETING"):
+        return {
+            "mode": "GENERAL",
+            "action": None,
+            "message": ""
+        }
+    
+    if intent == "SOCIAL":
+        mode = "GENERAL"
 
     if emotion in ("SAD", "ANGRY", "STRESSED", "CONFUSED"):
         if intent == "SEEK_ADVICE":

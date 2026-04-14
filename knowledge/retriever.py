@@ -21,17 +21,19 @@ class KnowledgeRetriever:
         
         results = sorted(results, key=lambda x: x[1])
 
-        best_dist = results[0][1]
-        
-        MARGIN = 0.15
         HARD_CUTOFF = 0.35
+        TOP_K = 3
 
         filtered = [
-            doc for doc, dist in results
-            if dist <= best_dist + MARGIN and dist < HARD_CUTOFF
+            (doc, dist) for doc, dist in results
+            if dist <= HARD_CUTOFF
         ]
-        
-        unique_docs = list(dict.fromkeys(filtered))
-        docs = unique_docs[:3]
 
-        return self.rerank(query, docs)
+        if not filtered:
+            return []
+        
+        docs = [doc for doc, _ in filtered[:TOP_K]]
+
+        unique_docs = list(dict.fromkeys(docs))
+
+        return self.rerank(query, unique_docs)

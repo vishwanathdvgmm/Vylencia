@@ -563,16 +563,225 @@
       "emotion": "STRESSED",
       "intent": "VENTING",
       "mode": "COMFORT"
+    },
+    {
+      "timestamp": "2026-04-14T21:44:14",
+      "emotion": "CALM",
+      "intent": "KNOWLEDGE",
+      "mode": "KNOWLEDGE"
+    },
+    {
+      "timestamp": "2026-04-14T21:44:24",
+      "emotion": "CALM",
+      "intent": "VENTING",
+      "mode": "COMFORT"
+    },
+    {
+      "timestamp": "2026-04-14T21:44:40",
+      "emotion": "SAD",
+      "intent": "VENTING",
+      "mode": "COMFORT"
+    },
+    {
+      "timestamp": "2026-04-14T21:44:56",
+      "emotion": "CALM",
+      "intent": "KNOWLEDGE",
+      "mode": "KNOWLEDGE"
+    },
+    {
+      "timestamp": "2026-04-14T21:45:30",
+      "emotion": "CALM",
+      "intent": "KNOWLEDGE",
+      "mode": "KNOWLEDGE"
+    },
+    {
+      "timestamp": "2026-04-14T21:54:53",
+      "emotion": "CALM",
+      "intent": "GREETING",
+      "mode": "COMFORT"
+    },
+    {
+      "timestamp": "2026-04-14T21:54:59",
+      "emotion": "CALM",
+      "intent": "GENERAL",
+      "mode": "COMFORT"
+    },
+    {
+      "timestamp": "2026-04-14T21:55:37",
+      "emotion": "CALM",
+      "intent": "KNOWLEDGE",
+      "mode": "KNOWLEDGE"
+    },
+    {
+      "timestamp": "2026-04-14T22:08:12",
+      "emotion": "CALM",
+      "intent": "GREETING",
+      "mode": "COMFORT"
+    },
+    {
+      "timestamp": "2026-04-14T22:08:20",
+      "emotion": "CALM",
+      "intent": "GENERAL",
+      "mode": "COMFORT"
+    },
+    {
+      "timestamp": "2026-04-14T22:08:28",
+      "emotion": "CALM",
+      "intent": "KNOWLEDGE",
+      "mode": "KNOWLEDGE"
+    },
+    {
+      "timestamp": "2026-04-14T22:09:11",
+      "emotion": "CALM",
+      "intent": "CODE",
+      "mode": "CODE"
+    },
+    {
+      "timestamp": "2026-04-14T22:09:32",
+      "emotion": "CALM",
+      "intent": "CODE",
+      "mode": "CODE"
+    },
+    {
+      "timestamp": "2026-04-14T22:18:48",
+      "emotion": "CALM",
+      "intent": "GREETING",
+      "mode": "GENERAL"
+    },
+    {
+      "timestamp": "2026-04-14T22:19:03",
+      "emotion": "CALM",
+      "intent": "GENERAL",
+      "mode": "GENERAL"
+    },
+    {
+      "timestamp": "2026-04-14T22:19:24",
+      "emotion": "CALM",
+      "intent": "CODE",
+      "mode": "CODE"
+    },
+    {
+      "timestamp": "2026-04-14T22:19:59",
+      "emotion": "CALM",
+      "intent": "CODE",
+      "mode": "CODE"
+    },
+    {
+      "timestamp": "2026-04-14T22:30:02",
+      "emotion": "CALM",
+      "intent": "GREETING",
+      "mode": "GENERAL"
+    },
+    {
+      "timestamp": "2026-04-14T22:30:22",
+      "emotion": "CALM",
+      "intent": "CODE",
+      "mode": "CODE"
+    },
+    {
+      "timestamp": "2026-04-14T22:30:39",
+      "emotion": "CALM",
+      "intent": "CODE",
+      "mode": "CODE"
+    },
+    {
+      "timestamp": "2026-04-14T22:38:37",
+      "emotion": "CALM",
+      "intent": "CODE",
+      "mode": "CODE"
+    },
+    {
+      "timestamp": "2026-04-14T22:38:49",
+      "emotion": "CALM",
+      "intent": "CODE",
+      "mode": "CODE"
+    },
+    {
+      "timestamp": "2026-04-14T22:39:59",
+      "emotion": "CALM",
+      "intent": "CODE",
+      "mode": "CODE"
+    },
+    {
+      "timestamp": "2026-04-14T22:40:33",
+      "emotion": "CALM",
+      "intent": "CODE",
+      "mode": "CODE"
+    },
+    {
+      "timestamp": "2026-04-14T23:00:03",
+      "emotion": "CALM",
+      "intent": "CODE",
+      "mode": "CODE"
+    },
+    {
+      "timestamp": "2026-04-14T23:00:31",
+      "emotion": "CALM",
+      "intent": "CODE",
+      "mode": "CODE"
+    },
+    {
+      "timestamp": "2026-04-14T23:00:47",
+      "emotion": "CALM",
+      "intent": "CODE",
+      "mode": "CODE"
+    },
+    {
+      "timestamp": "2026-04-14T23:01:01",
+      "emotion": "CALM",
+      "intent": "CODE",
+      "mode": "CODE"
+    },
+    {
+      "timestamp": "2026-04-14T23:01:49",
+      "emotion": "CALM",
+      "intent": "CODE",
+      "mode": "CODE"
+    },
+    {
+      "timestamp": "2026-04-14T23:13:04",
+      "emotion": "CALM",
+      "intent": "CODE_CONCEPT",
+      "mode": "KNOWLEDGE"
+    },
+    {
+      "timestamp": "2026-04-14T23:13:22",
+      "emotion": "CALM",
+      "intent": "GREETING",
+      "mode": "GENERAL"
+    },
+    {
+      "timestamp": "2026-04-14T23:13:32",
+      "emotion": "CALM",
+      "intent": "GREETING",
+      "mode": "GENERAL"
+    },
+    {
+      "timestamp": "2026-04-14T23:27:20",
+      "emotion": "CALM",
+      "intent": "SOCIAL",
+      "mode": "COMFORT"
+    },
+    {
+      "timestamp": "2026-04-14T23:27:33",
+      "emotion": "CALM",
+      "intent": "SOCIAL",
+      "mode": "COMFORT"
+    },
+    {
+      "timestamp": "2026-04-14T23:27:49",
+      "emotion": "CALM",
+      "intent": "SOCIAL",
+      "mode": "COMFORT"
     }
   ],
   "patterns": {
-    "CALM_UNKNOWN": 5.310090529696561,
-    "CALM_ENTERTAINMENT": 0.7798414174490642,
-    "STRESSED_VENTING": 2.7118171618235225,
-    "CALM_KNOWLEDGE": 6.268589832860403,
-    "CALM_CODE": 1.4903600876626366,
-    "CONFUSED_VENTING": 0.5688000922764596,
-    "CONFUSED_KNOWLEDGE": 1.2289863489629875,
-    "SAD_VENTING": 0.6634204312890623
+    "CALM_UNKNOWN": 0.8819178044525496,
+    "CALM_KNOWLEDGE": 2.1768119307655165,
+    "CALM_CODE": 7.9924134885277835,
+    "CALM_GREETING": 2.920018846965599,
+    "CALM_GENERAL": 0.8737023807857077,
+    "CALM_CODE_CONCEPT": 0.7737809374999999,
+    "CALM_SOCIAL": 2.8525
   }
 }
